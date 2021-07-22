@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING
         },
-        bithdate: {
+        birthdate: {
             type: Sequelize.DATE
         },
         city: {
