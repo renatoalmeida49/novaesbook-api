@@ -9,5 +9,10 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
+db.users = require('./user-model')(sequelize, Sequelize)
+db.posts = require('./post-model')(sequelize, Sequelize)
+db.userRelations = require('./user-relation-model')(sequelize, Sequelize)
+db.postLikes = require('./post-like-model')(sequelize, Sequelize)
+db.postComments = require('./post_comment-model')(sequelize, Sequelize)
 
 module.exports = db
