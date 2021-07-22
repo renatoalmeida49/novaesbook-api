@@ -4,6 +4,9 @@ const morgan = require('morgan')
 
 const app = express()
 
+const db = require('./models/index')
+db.sequelize.sync()
+
 app.use(morgan('dev'))
 app.use(express.urlencoded({extend: false}))
 app.use(express.json())
