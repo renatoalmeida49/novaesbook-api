@@ -14,10 +14,16 @@ db.sequelize.sync()
 //     console.log("Drop and re-sync db.")
 // })
 
+//-----------ROUTES--------------
+const routeUsers = require('./routes/users-router')
+
 app.use(morgan('dev'))
 app.use(express.urlencoded({extend: false}))
 app.use(express.json())
 app.use(cors())
+
+//----------REGISTER ROUTES ----------
+app.use('/users', routeUsers)
 
 app.use((req, res, next) => {
     return res.status(200).send({
