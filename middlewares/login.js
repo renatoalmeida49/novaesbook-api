@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-export default function login(req, res, next) {
+exports.login = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1]
 
