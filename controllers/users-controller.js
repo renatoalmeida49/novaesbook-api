@@ -78,7 +78,7 @@ exports.signIn = (req, res, next) => {
                         mensagem: "Autenticado com sucesso",
                         user: {
                             email: user.email,
-                            nome: user.nome
+                            name: user.name
                         },
                         token: token
                     })
