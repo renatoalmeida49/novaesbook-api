@@ -2,6 +2,12 @@ const db = require('../models')
 
 const Post = db.posts
 
+exports.homePage = (req, res) => {
+    return res.status(200).send({
+        message: "I need to send the home page of the user."
+    })
+}
+
 exports.create = (req, res) => {
     if (!req.body.body) {
         return res.status(400).send({
