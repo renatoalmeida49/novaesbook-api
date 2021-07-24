@@ -78,7 +78,12 @@ exports.signIn = (req, res, next) => {
                         mensagem: "Autenticado com sucesso",
                         user: {
                             email: user.email,
-                            name: user.name
+                            name: user.name,
+                            birthdate: user.birthdate || '',
+                            city: user.city || '',
+                            work: user.work || '',
+                            avatar: user.avatar || '',
+                            cover: user.cover || ''
                         },
                         token: token
                     })
