@@ -88,6 +88,10 @@ exports.signIn = (req, res, next) => {
                         token: token
                     })
                 }
+
+                return res.status(401).send({
+                    message: "User or password not found",
+                })
             })
         })
         .catch(err => {
