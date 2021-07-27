@@ -77,6 +77,7 @@ exports.signIn = (req, res, next) => {
                     return res.status(200).send({
                         mensagem: "Autenticado com sucesso",
                         user: {
+                            id: user.id,
                             email: user.email,
                             name: user.name,
                             birthdate: user.birthdate || '',
