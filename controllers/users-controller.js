@@ -102,3 +102,37 @@ exports.signIn = (req, res, next) => {
             })
         })
 }
+
+exports.update = (req, res, next) => {
+    const user = {
+        id: req.body.userId,
+        name: req.body.name,
+        email: req.body.email,
+        birthdate: req.body.birthdate,
+        city: req.body.city,
+        work: req.body.work,
+    }
+
+    User.update(user, {
+        where: {
+            id: req.body.userId
+        }
+    })
+        .then(status => {
+            if (status == 1) {
+                return res.status(202).send({
+                    message: "Updated successfully!"
+                })
+            } else {
+                return res.status(400).send({
+                    message: "Cannot update"
+                })
+            }
+        })
+        .catch(erro => {
+            return res.status(500).send({
+                message: "Internal error",
+                error: erro
+            })
+        })
+}
