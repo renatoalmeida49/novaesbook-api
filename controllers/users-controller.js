@@ -105,23 +105,26 @@ exports.signIn = (req, res, next) => {
 
 exports.update = (req, res, next) => {
     const user = {
-        id: req.body.userId,
+        id: req.body.id,
         name: req.body.name,
         email: req.body.email,
         birthdate: req.body.birthdate,
         city: req.body.city,
         work: req.body.work,
+        avatar: req.body.avatar ? req.body.avatar : '',
+        cover: req.body.cover ? req.body.cover : '',
     }
 
     User.update(user, {
         where: {
-            id: req.body.userId
+            id: req.body.id
         }
     })
         .then(status => {
             if (status == 1) {
                 return res.status(202).send({
-                    message: "Updated successfully!"
+                    message: "Updated successfully!",
+                    user: user
                 })
             } else {
                 return res.status(400).send({
