@@ -139,3 +139,26 @@ exports.update = (req, res, next) => {
             })
         })
 }
+
+exports.profile = (req, res, next) => {
+    User.findOne({
+        where: {
+            id: req.body.id
+        },
+        attributes: {
+            exclude: ['password']
+        }
+    })
+        .then(user => {
+            return res.status(200).send({
+                message: "Here you have your user!",
+                user: user
+            })
+        })
+        .catch(err => {
+            return res.status(500).send({
+                message: "Something went wrong while searching for user",
+                erro: err
+            })
+        })
+}
