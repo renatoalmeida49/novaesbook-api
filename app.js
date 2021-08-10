@@ -17,6 +17,7 @@ db.sequelize.sync()
 //-----------ROUTES--------------
 const routeUsers = require('./routes/users-router')
 const routePosts = require('./routes/posts-router')
+const routeRelations = require('./routes/user-relations-router')
 
 app.use(morgan('dev'))
 app.use(express.urlencoded({extend: false}))
@@ -26,6 +27,7 @@ app.use(cors())
 //----------REGISTER ROUTES ----------
 app.use('/users', routeUsers)
 app.use('/posts', routePosts)
+app.use('/relations', routeRelations)
 
 app.use((req, res, next) => {
     return res.status(200).send({
