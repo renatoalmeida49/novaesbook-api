@@ -1,10 +1,36 @@
 const db = require('../models')
+const { Op } = require('sequelize')
 
 const Post = db.posts
+const Relation = db.userRelations
 
-exports.homePage = (req, res) => {
+exports.homePage = async (req, res) => {
+    const ids = await Relation.findAll({
+        where: {
+            fromId : req.user.id
+        },
+        attributes: ['toId']
+    })
+
+    const array = ids.map(item => {
+        return item.toId
+    })
+
+    array.push(req.user.id)
+
+    const posts = await Post.findAll({
+        where: {
+            userId: {
+                [Op.in]: array
+            }
+        },
+        include: ['user']
+    })
+
     return res.status(200).send({
-        message: "I need to send the home page of the user."
+        message: "I need to send the home page of the user.",
+        ids: array,
+        posts: posts
     })
 }
 
