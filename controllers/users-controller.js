@@ -163,12 +163,14 @@ exports.profile = async (req, res, next) => {
         where: {
             fromId: req.body.id
         },
+        include: ["to"]
     })
 
     const followers = await Relation.findAll({
         where: {
             toId: req.body.id
-        }
+        },
+        include: ["from"]
     })
 
     return res.status(200).send({
