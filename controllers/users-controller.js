@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const User = db.users
+const Post = db.posts
 
 exports.signUp = (req, res, next) => {
     bcrypt.hash(req.body.password, 10, (errBcrypt, hash) => {
@@ -140,8 +141,8 @@ exports.update = (req, res, next) => {
         })
 }
 
-exports.profile = (req, res, next) => {
-    User.findOne({
+exports.profile = async (req, res, next) => {
+    const user = await User.findOne({
         where: {
             id: req.body.id
         },
@@ -149,16 +150,17 @@ exports.profile = (req, res, next) => {
             exclude: ['password']
         }
     })
-        .then(user => {
-            return res.status(200).send({
-                message: "Here you have your user!",
-                user: user
-            })
-        })
-        .catch(err => {
-            return res.status(500).send({
-                message: "Something went wrong while searching for user",
-                erro: err
-            })
-        })
+
+    const posts = await Post.findAll({
+        where: {
+            userId: req.body.id
+        },
+        include: ["user"]
+    })
+
+    return res.status(200).send({
+        message: "Here you have your user!",
+        user: user,
+        posts: posts
+    })
 }
