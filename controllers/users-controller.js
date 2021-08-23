@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 
 const User = db.users
 const Post = db.posts
+const Relation = db.userRelations
 
 exports.signUp = (req, res, next) => {
     bcrypt.hash(req.body.password, 10, (errBcrypt, hash) => {
@@ -158,9 +159,23 @@ exports.profile = async (req, res, next) => {
         include: ["user"]
     })
 
+    const following = await Relation.findAll({
+        where: {
+            fromId: req.body.id
+        },
+    })
+
+    const followers = await Relation.findAll({
+        where: {
+            toId: req.body.id
+        }
+    })
+
     return res.status(200).send({
         message: "Here you have your user!",
         user: user,
-        posts: posts
+        posts: posts,
+        following: following,
+        followers: followers
     })
 }
