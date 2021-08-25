@@ -31,7 +31,7 @@ app.use('/relations', routeRelations)
 
 app.use((req, res, next) => {
     return res.status(200).send({
-        mensagem: "A luta é grande, mas a derrota é certa"
+        mensagem: "Muitos dirão que você não é capaz. Acredite neles."
     })
 })
 

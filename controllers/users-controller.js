@@ -143,9 +143,13 @@ exports.update = (req, res, next) => {
 }
 
 exports.profile = async (req, res, next) => {
+    const id = req.body.id || req.user.id
+
+    console.log("CHECK THE ID HERE", id)
+    
     const user = await User.findOne({
         where: {
-            id: req.body.id
+            id: id
         },
         attributes: {
             exclude: ['password']
@@ -154,21 +158,21 @@ exports.profile = async (req, res, next) => {
 
     const posts = await Post.findAll({
         where: {
-            userId: req.body.id
+            userId: id
         },
         include: ["user"]
     })
 
     const following = await Relation.findAll({
         where: {
-            fromId: req.body.id
+            fromId: id
         },
         include: ["to"]
     })
 
     const followers = await Relation.findAll({
         where: {
-            toId: req.body.id
+            toId: id
         },
         include: ["from"]
     })
