@@ -1,0 +1,12 @@
+{
+    "env": {
+        "DB_DRIVER": "mysql",
+        "DB_USER": "developer",
+        "DB_PASSWORD": "developer",
+        "DB_DATABASE": "novaesbook",
+        "DB_HOST": "localhost",
+        "DB_PORT": 3306,
+
+        "JWT_KEY": "segredo"
+    }
+}
