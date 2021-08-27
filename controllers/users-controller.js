@@ -47,7 +47,7 @@ exports.signIn = (req, res, next) => {
     })
         .then(user => {
             if (user === null) {
-                return res.status(400).send({
+                return res.status(403).send({
                     message: "User or password not found"
                 })
             }
@@ -92,13 +92,13 @@ exports.signIn = (req, res, next) => {
                     })
                 }
 
-                return res.status(401).send({
+                return res.status(403).send({
                     message: "User or password not found",
                 })
             })
         })
         .catch(err => {
-            return res.status(401).send({
+            return res.status(500).send({
                 message: "Failed to search for user",
                 error: err
             })
