@@ -4,7 +4,7 @@ const morgan = require('morgan')
 
 const app = express()
 
-const db = require('./models/index')
+const db = require('./src/models/index')
 
 // MODE PROD
 db.sequelize.sync()
@@ -15,9 +15,9 @@ db.sequelize.sync()
 // })
 
 //-----------ROUTES--------------
-const routeUsers = require('./routes/users-router')
-const routePosts = require('./routes/posts-router')
-const routeRelations = require('./routes/user-relations-router')
+const routeUsers = require('./src/routes/users-router')
+const routePosts = require('./src/routes/posts-router')
+const routeRelations = require('./src/routes/user-relations-router')
 
 app.use(morgan('dev'))
 app.use(express.urlencoded({extend: false}))
