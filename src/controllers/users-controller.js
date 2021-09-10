@@ -39,70 +39,65 @@ exports.signUp = (req, res, next) => {
     })
 }
 
-exports.signIn = (req, res, next) => {
-    const user = User.findOne({
+exports.signIn = async (req, res) => {
+    const USER = await User.findOne({
         where: {
             email: req.body.email
         }
     })
-        .then(user => {
-            if (user === null) {
-                return res.status(403).send({
-                    message: "User or password not found"
-                })
-            }
 
-            bcrypt.compare(req.body.password, user.password, (err, result) => {
-                if (err) {
-                    return res.status(401).send({
-                        message: "Falha na autenticação",
-                        error: err
-                    })
-                }
-
-                if (result) {
-                    const token = jwt.sign({
-                        id: user.id,
-                        email: user.email,
-                        name: user.name,
-                        birthdate: user.birthdate,
-                        city: user.city,
-                        work: user.work,
-                        avatar: user.avatar,
-                        cover: user.cover
-                    },
-                    process.env.JWT_KEY,
-                    {
-                        expiresIn: "1h"
-                    })
-
-                    return res.status(200).send({
-                        mensagem: "Autenticado com sucesso",
-                        user: {
-                            id: user.id,
-                            email: user.email,
-                            name: user.name,
-                            birthdate: user.birthdate || '',
-                            city: user.city || '',
-                            work: user.work || '',
-                            avatar: user.avatar || '',
-                            cover: user.cover || ''
-                        },
-                        token: token
-                    })
-                }
-
-                return res.status(403).send({
-                    message: "User or password not found",
-                })
-            })
+    if (!USER) {
+        return res.status(403).send({
+            message: "User or password not found"
         })
-        .catch(err => {
-            return res.status(500).send({
-                message: "Failed to search for user",
+    }
+
+    bcrypt.compare(req.body.password, USER.password, (err, result) => {
+        if (err) {
+            return res.status(401).send({
+                message: "Falha na autenticação",
                 error: err
             })
+        }
+
+        if (result) {
+            const TOKEN = jwt.sign(
+                {
+                    id: USER.id,
+                    email: USER.email,
+                    name: USER.name,
+                    birthdate: USER.birthdate,
+                    city: USER.city,
+                    work: USER.work,
+                    avatar: USER.avatar,
+                    cover: USER.cover
+                },
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "1h"
+                }
+            )
+
+            return res.status(200).send({
+                mensagem: "Autenticado com sucesso",
+                user: {
+                    id: USER.id,
+                    email: USER.email,
+                    name: USER.name,
+                    birthdate: USER.birthdate || '',
+                    city: USER.city || '',
+                    work: USER.work || '',
+                    avatar: USER.avatar || '',
+                    cover: USER.cover || ''
+                },
+                token: TOKEN
+            })
+        }
+
+        return res.status(403).send({
+            message: "User or password not found",
         })
+    })
 }
 
 exports.update = (req, res, next) => {
@@ -142,10 +137,8 @@ exports.update = (req, res, next) => {
         })
 }
 
-exports.profile = async (req, res, next) => {
+exports.profile = async (req, res) => {
     const id = req.body.id || req.user.id
-
-    console.log("CHECK THE ID HERE", id)
     
     const user = await User.findOne({
         where: {
