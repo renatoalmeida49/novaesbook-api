@@ -6,7 +6,7 @@ const User = db.users
 const Post = db.posts
 const Relation = db.userRelations
 
-exports.signUp = (req, res, next) => {
+exports.signUp = (req, res) => {
     bcrypt.hash(req.body.password, 10, (errBcrypt, hash) => {
         if (errBcrypt) {
             return res.status(500).send({
@@ -14,16 +14,16 @@ exports.signUp = (req, res, next) => {
             })
         }
 
-        const user = {
+        const USER = {
             name: req.body.name,
             email: req.body.email,
             password: hash,
             birthdate: req.body.birthdate
         }
 
-        User.create(user)
+        User.create(USER)
             .then(data => {
-                res.status(201).send({
+                return res.status(201).send({
                     message: "User created",
                     user: {
                         name: data.name,
@@ -32,7 +32,7 @@ exports.signUp = (req, res, next) => {
                 })
             })
             .catch(err => {
-                res.status(500).send({
+                return res.status(500).send({
                     message: err
                 })
             })
@@ -138,43 +138,43 @@ exports.update = (req, res, next) => {
 }
 
 exports.profile = async (req, res) => {
-    const id = req.body.id || req.user.id
+    const ID = req.body.id || req.user.id
     
-    const user = await User.findOne({
+    const USER = await User.findOne({
         where: {
-            id: id
+            id: ID
         },
         attributes: {
             exclude: ['password']
         }
     })
 
-    const posts = await Post.findAll({
+    const POSTS = await Post.findAll({
         where: {
-            userId: id
+            userId: ID
         },
         include: ["user"]
     })
 
-    const following = await Relation.findAll({
+    const FOLLOWING = await Relation.findAll({
         where: {
-            fromId: id
+            fromId: ID
         },
         include: ["to"]
     })
 
-    const followers = await Relation.findAll({
+    const FOLLOWERS = await Relation.findAll({
         where: {
-            toId: id
+            toId: ID
         },
         include: ["from"]
     })
 
     return res.status(200).send({
         message: "Here you have your user!",
-        user: user,
-        posts: posts,
-        following: following,
-        followers: followers
+        user: USER,
+        posts: POSTS,
+        following: FOLLOWING,
+        followers: FOLLOWERS
     })
 }
