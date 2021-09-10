@@ -5,23 +5,23 @@ const Post = db.posts
 const Relation = db.userRelations
 
 exports.homePage = async (req, res) => {
-    const ids = await Relation.findAll({
+    const IDS = await Relation.findAll({
         where: {
             fromId : req.user.id
         },
         attributes: ['toId']
     })
 
-    const array = ids.map(item => {
+    const ARRAY = IDS.map(item => {
         return item.toId
     })
 
-    array.push(req.user.id)
+    ARRAY.push(req.user.id)
 
-    const posts = await Post.findAll({
+    const POSTS = await Post.findAll({
         where: {
             userId: {
-                [Op.in]: array
+                [Op.in]: ARRAY
             }
         },
         include: ['user']
@@ -29,36 +29,36 @@ exports.homePage = async (req, res) => {
 
     return res.status(200).send({
         message: "I need to send the home page of the user.",
-        ids: array,
-        posts: posts
+        ids: ARRAY,
+        posts: POSTS
     })
 }
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     if (!req.body.body) {
         return res.status(400).send({
             message: "Content can not be empty!"
         })
     }
 
-    const post = {
+    const POST = {
         userId: req.user.id,
         type: req.body.type,
         body: req.body.body
     }
 
-    Post.create(post)
-        .then(data => {
-            return res.status(201).send({
-                message: "Post added!",
-                data: data
-            })
+    const NEW_POST = await Post.create(POST)
+
+    if(NEW_POST) {
+        return res.status(201).send({
+            message: "Post added!",
+            data: NEW_POST
         })
-        .catch(err => {
-            return res.status(500).send({
-                message: err.message || "Erro while creating post"
-            })
-        })
+    }
+
+    return res.status(500).send({
+        message: "Erro while creating post"
+    })
 }
 
 exports.userPosts = (req, res) => {
