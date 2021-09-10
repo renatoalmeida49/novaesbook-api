@@ -100,9 +100,15 @@ exports.signIn = async (req, res) => {
     })
 }
 
-exports.update = (req, res, next) => {
-    const user = {
-        id: req.body.id,
+exports.update = async (req, res) => {
+    if(req.body.userId != req.user.id) {
+        return res.status(401).send({
+            message: "Who you really are?"
+        })
+    }
+
+    const USER = {
+        id: req.body.userId,
         name: req.body.name,
         email: req.body.email,
         birthdate: req.body.birthdate,
@@ -112,29 +118,22 @@ exports.update = (req, res, next) => {
         cover: req.body.cover ? req.body.cover : '',
     }
 
-    User.update(user, {
+    const UPDATE_USER = await User.update(USER, {
         where: {
-            id: req.body.id
+            id: req.body.userId
         }
     })
-        .then(status => {
-            if (status == 1) {
-                return res.status(202).send({
-                    message: "Updated successfully!",
-                    user: user
-                })
-            } else {
-                return res.status(400).send({
-                    message: "Cannot update"
-                })
-            }
+
+    if(UPDATE_USER == 1) {
+        return res.status(202).send({
+            message: "Updated successfully!",
+            user: USER
         })
-        .catch(erro => {
-            return res.status(500).send({
-                message: "Internal error",
-                error: erro
-            })
+    } else {
+        return res.status(400).send({
+            message: "Cannot update"
         })
+    }
 }
 
 exports.profile = async (req, res) => {
