@@ -6,7 +6,19 @@ const User = db.users
 const Post = db.posts
 const Relation = db.userRelations
 
-exports.signUp = (req, res) => {
+exports.signUp = async (req, res) => {
+    const USER = await User.findOne({
+        where: {
+            email: req.body.email
+        }
+    })
+    
+    if (USER) {
+        return res.status(403).send({
+            message: "Email already in use"
+        })
+    }
+
     bcrypt.hash(req.body.password, 10, (errBcrypt, hash) => {
         if (errBcrypt) {
             return res.status(500).send({
