@@ -47,7 +47,6 @@ exports.signIn = async (req, res) => {
     })
 
     if (!USER) {
-        console.log('Inside if de user not found')
         return res.status(403).send({
             message: "User or password not found"
         })
