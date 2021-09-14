@@ -45,10 +45,7 @@ exports.signIn = async (req, res) => {
             email: req.body.email
         }
     })
-        .catch(err => {
-            return res.status(500).send(err)
-        })
-
+    
     if (!USER) {
         return res.status(403).send({
             message: "User or password not found"
