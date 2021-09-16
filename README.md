@@ -9,6 +9,7 @@ Você pode conferir o Frontend dessa aplicação [aqui](https://github.com/renat
 - [Visão Geral](#visao-geral)
   - [O desafio](#o-desafio)
   - [Links](#link)
+  - [Documentação](#documentacao)
 - [Meu processo](#meu-processo)
   - [Construção](#construcao)
   - [O que aprendi](#o-que-aprendi)
@@ -33,7 +34,11 @@ Então me veio a ideia de refatorar todo o projeto Devsbook feito em PHP para um
 
 ### Links
 
-- Projeto online: [Heroku](https://novaesbook-api.herokuapp.com/)  
+- Projeto online: [Heroku](https://novaesbook-api.herokuapp.com/)    
+  
+### Documentação  
+  
+Confira toda a documentação e rotas no Postman acessando este [link](https://documenter.getpostman.com/view/16331785/U16oq4Hn).
   
 ## :pencil2: Meu processo  
   
