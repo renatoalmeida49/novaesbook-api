@@ -2,6 +2,8 @@
   
 Backend para o Novaesbook, um clone do Facebook.  
 
+Você pode conferir o Frontend dessa aplicação [aqui](https://github.com/renatoalmeida49/novaesbook).
+
 ## :clipboard: Sumário
 
 - [Visão Geral](#visao-geral)
@@ -31,7 +33,7 @@ Então me veio a ideia de refatorar todo o projeto Devsbook feito em PHP para um
 
 ### Links
 
-- Projeto online: [Heroku](https://ecstatic-jennings-4d87c0.netlify.app)  
+- Projeto online: [Heroku](https://novaesbook-api.herokuapp.com/)  
   
 ## :pencil2: Meu processo  
   
