@@ -6,6 +6,13 @@ const User = db.users
 const Post = db.posts
 const Relation = db.userRelations
 
+exports.verify = async (req, res) => {
+    return res.status(200).send({
+        user: req.user,
+        token: req.headers.authorization.split(' ')[1]
+    })
+}
+
 exports.signUp = async (req, res) => {
     const USER = await User.findOne({
         where: {

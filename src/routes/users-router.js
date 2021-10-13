@@ -5,6 +5,7 @@ const login = require('../middlewares/login')
 
 const UsersController = require('../controllers/users-controller')
 
+router.get('/verify', login.login, UsersController.verify)
 router.post('/sign-up', UsersController.signUp)
 router.post('/sign-in', UsersController.signIn)
 router.put('/update', login.login, UsersController.update)
