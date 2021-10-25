@@ -120,14 +120,14 @@ exports.signIn = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    if(req.body.userId != req.user.id) {
+    if(req.body.id != req.user.id) {
         return res.status(401).send({
             message: "Who you really are?"
         })
     }
 
     const USER = {
-        id: req.body.userId,
+        id: req.body.id,
         name: req.body.name,
         email: req.body.email,
         birthdate: req.body.birthdate,
@@ -139,7 +139,7 @@ exports.update = async (req, res) => {
 
     const UPDATE_USER = await User.update(USER, {
         where: {
-            id: req.body.userId
+            id: req.body.id
         }
     })
 
