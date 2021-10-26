@@ -7,8 +7,17 @@ const Post = db.posts
 const Relation = db.userRelations
 
 exports.verify = async (req, res) => {
+    const USER = await User.findOne({
+        where: {
+            id: req.user.id
+        },
+        attributes: {
+            exclude: ['password']
+        }
+    })
+
     return res.status(200).send({
-        user: req.user,
+        user: USER,
         token: req.headers.authorization.split(' ')[1]
     })
 }
@@ -83,13 +92,6 @@ exports.signIn = async (req, res) => {
             const TOKEN = jwt.sign(
                 {
                     id: USER.id,
-                    email: USER.email,
-                    name: USER.name,
-                    birthdate: USER.birthdate,
-                    city: USER.city,
-                    work: USER.work,
-                    avatar: USER.avatar,
-                    cover: USER.cover
                 },
                 process.env.JWT_KEY,
                 {
